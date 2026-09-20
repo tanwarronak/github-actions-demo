@@ -19,4 +19,19 @@ jobs :
         run : npm start &
       - name : Run tests
         run : npm test
-    
+  deploy :
+  needs : test
+    runs-on : ubuntu-latest
+    steps :
+      - uses : actions/checkout@v6
+      - name : ssh into VM
+        uses : appleboy/ssh-action@v0.1.5
+        with :
+          host : ${{ secrets.HOST_ADDRESS }}
+          username : ${{ secrets.HOST_USER }}
+          key : ${{ secrets.HOST_KEY }}
+          script : |
+            cd /home/claude/github-actions-demo
+            git pull origin main
+            npm install
+            pm2 restart all
