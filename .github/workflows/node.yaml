@@ -15,7 +15,7 @@ jobs :
           node-version : "22"
       - name : Install dependencies
         run : npm install
-      -name : Start server
+      - name : Start server
         run : npm start &
       - name : Run tests
         run : npm test
